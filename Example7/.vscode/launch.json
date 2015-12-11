@@ -5,9 +5,9 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "web.js",
+			"program": "templates.js",
 			"stopOnEntry": false,
-			"args": [],
+			"args": ["2444"],
 			"cwd": ".",
 			"runtimeExecutable": null,
 			"runtimeArgs": [

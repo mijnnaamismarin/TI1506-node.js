@@ -1,5 +1,6 @@
 /* global Buffer */
 /* global __dirname */
+//note: a close copy of Example6, only two middleware components added
 var express = require("express");
 var url = require("url");
 var http = require("http");
@@ -7,6 +8,29 @@ var http = require("http");
 var port = 3000;
 var app = express();
 app.use(express.static(__dirname + "/client"));
+//logger component
+app.use(function (req, res, next) {
+	console.log("[LOG] %s %s", new Date(), req.url);
+	next();
+});
+
+//authorization component
+app.use(function (req, res, next) {
+	var auth = req.headers.authorization;
+	if (!auth) {
+		return next(new Error("Unauthorized access!"));
+	}
+	var parts = auth.split(' ');
+	var buf = new Buffer(parts[1], 'base64');
+	var login = buf.toString().split(':');
+	var user = login[0];
+	var password = login[1];
+	if (user === "user" && password === "password") { next(); }
+	else {
+		return next(new Error("Wrong username/password combination!"));
+	}
+});
+
 http.createServer(app).listen(port);
 
 var todos = [];

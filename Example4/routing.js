@@ -1,30 +1,15 @@
 var http = require('http'),
-	url = require('url'),
-	server;
+	url = require('url');
 	
 var simpleHTTPResponder = function (req, res) {
 	var url_parts = url.parse(req.url, true);
-	if (url_parts.pathname === "/greetme") {
+	if (url_parts.pathname === "/overview") {
 		res.writeHead(200, {
-			"Content-Type": "text/plain"
+			"Content-Type": "text/html"
 		});
-		var query = url_parts.query;
-		if (query["name"] !== undefined) {
-			res.end("Greetings " + query["name"]);
-		}
-		else {
-			res.end("Greetings Anonymous");
-		}
-	}
-	else {
-		res.writeHead(404, {
-			"Content-Type": "text/plain"
-		});
-		res.end("Only /greetme is implemented!");
+		//var content = retrieve_content();
+		//content now contains the generated OVERVIEW page
+		res.end("test");
 	}
 };
-server = http.createServer(simpleHTTPResponder);
-var port = 3000;
-server.listen(port, function () {
-	console.log("Server listening on port " + port);
-});
+var server = http.createServer(simpleHTTPResponder).listen(3000);
